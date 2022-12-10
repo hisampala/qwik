@@ -1,13 +1,15 @@
 import { component$, Resource, useResource$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import { DocumentHead, useLocation } from "@builder.io/qwik-city";
 import { Users } from "~/model/users";
 
 export default component$(() => {
+  const location = useLocation();
+  
+  
   const UsersResource = useResource$<Users[]>(async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/users");
-    const users = await res.json()
-   
-    return users
+    const users = await res.json();
+    return users;
   });
   return (
     <div>
@@ -26,6 +28,13 @@ export default component$(() => {
                   <li> tel : {user.phone} </li>
                   <li> website : {user.website} </li>
                   <li> Addreee : city {user.address.city} </li>
+                  <li>
+                    {" "}
+                    <a href={location.pathname + user.id}>
+                      {" "}
+                      search detail user
+                    </a>{" "}
+                  </li>
                 </ul>
               </div>
             );
